@@ -1,12 +1,18 @@
 import "./App.css";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Header from "./component/Header/Header";
 import Categories from "./component/Categories/Categories";
 import Sort from "./component/Sort/Sort";
 import PIzzaList from "./component/Pizza/PIzzaList";
-import Pizzas from "./assets/pizzas.json";
 
 function App() {
+  const [items, setItems] = useState([]);
+  useEffect(() => {
+    fetch("http://localhost:3000/items")
+      .then((res) => res.json())
+      .then((res) => setItems(res));
+  }, []);
+
   return (
     <div className="wrapper">
       <Header />
@@ -17,7 +23,7 @@ function App() {
             <Sort />
           </div>
           <h2 className="content__title">Все пиццы</h2>
-          <PIzzaList pizza={Pizzas} />
+          <PIzzaList pizza={items} />
         </div>
       </div>
     </div>
