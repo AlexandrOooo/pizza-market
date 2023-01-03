@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 
-function Sort() {
-  const [selected, setSelected] = useState(0);
+function Sort({ value, onChangeSort }) {
   const [isVisible, setIsVisible] = useState(false);
-  const list = ["популярности", "цене", "алфавиту"];
-  let selectedSort = list[selected];
+  const list = [
+    { name: "популярности", propertyValue: "rating" },
+    { name: "цене", propertyValue: "price" },
+    { name: "алфавиту", propertyValue: "title" },
+  ];
 
   function onClickListItem(listItem) {
-    setSelected(list.indexOf(listItem));
+    onChangeSort(listItem);
     setIsVisible(false);
   }
 
@@ -32,7 +34,7 @@ function Sort() {
             setIsVisible(() => !isVisible);
           }}
         >
-          {selectedSort}
+          {value.name}
         </span>
       </div>
       {isVisible && (
@@ -42,9 +44,11 @@ function Sort() {
               <li
                 key={i}
                 onClick={() => onClickListItem(listItem)}
-                className={selected === i ? "active" : ""}
+                className={
+                  value.propertyValue === listItem.propertyValue ? "active" : ""
+                }
               >
-                {listItem}
+                {listItem.name}
               </li>
             ))}
           </ul>

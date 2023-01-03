@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 
-function Categories() {
-  const [activePizza, setACtivePizza] = useState(0);
-
+function Categories({ value, onChangeCategories }) {
   const categories = [
     "Все",
     "Мясные",
@@ -12,7 +10,7 @@ function Categories() {
     "Закрытые",
   ];
   const selectPizza = (index) => {
-    setACtivePizza(index);
+    onChangeCategories(index);
   };
 
   return (
@@ -22,7 +20,7 @@ function Categories() {
           <li
             onClick={() => selectPizza(index)}
             key={index}
-            className={activePizza === index ? "active" : ""}
+            className={value === index ? "active" : ""}
           >
             {category}
           </li>

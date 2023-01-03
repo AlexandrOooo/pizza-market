@@ -6,23 +6,38 @@ import Sort from "../component/Sort/Sort";
 function Home() {
   const [items, setItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [categoriesSort, setCategoriesSort] = useState(0);
+  const [selectedSort, setSelectedSort] = useState({
+    name: "популярности",
+    propertyValue: "rating",
+  });
+
   useEffect(() => {
-    fetch("http://localhost:3001/items")
+    setIsLoading(true);
+    fetch(
+      "http://localhost:3001/items?" +
+        `${categoriesSort > 0 ? `category=${categoriesSort}` : ""}` +
+        `&_sort=${selectedSort.propertyValue}&_order=desc`
+    )
       .then((res) => res.json())
       .then((res) => {
         setItems(res);
         setIsLoading(false);
       });
-  }, []);
+    window.scrollTo(0, 0);
+  }, [categoriesSort, selectedSort]);
   return (
-    <>
+    <div className="container">
       <div className="content__top">
-        <Categories />
-        <Sort />
+        <Categories
+          value={categoriesSort}
+          onChangeCategories={(id) => setCategoriesSort(id)}
+        />
+        <Sort value={selectedSort} onChangeSort={(id) => setSelectedSort(id)} />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <PizzaList isLoading={isLoading} pizza={items} />
-    </>
+    </div>
   );
 }
 
