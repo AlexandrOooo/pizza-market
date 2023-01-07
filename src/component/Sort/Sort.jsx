@@ -3,9 +3,12 @@ import React, { useState } from "react";
 function Sort({ value, onChangeSort }) {
   const [isVisible, setIsVisible] = useState(false);
   const list = [
-    { name: "популярности", propertyValue: "rating" },
-    { name: "цене", propertyValue: "price" },
-    { name: "алфавиту", propertyValue: "title" },
+    { name: "популярности DESC", propertyValue: "rating" },
+    { name: "популярности ASC", propertyValue: "-rating" },
+    { name: "цене DESC", propertyValue: "price" },
+    { name: "цене ASC", propertyValue: "-price" },
+    { name: "алфавиту DESC", propertyValue: "title" },
+    { name: "алфавиту ASC", propertyValue: "-title" },
   ];
 
   function onClickListItem(listItem) {

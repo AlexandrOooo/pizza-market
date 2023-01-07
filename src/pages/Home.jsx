@@ -17,7 +17,9 @@ function Home() {
     fetch(
       "http://localhost:3001/items?" +
         `${categoriesSort > 0 ? `category=${categoriesSort}` : ""}` +
-        `&_sort=${selectedSort.propertyValue}&_order=desc`
+        `&_sort=${selectedSort.propertyValue.replace("-", "")}&_order=${
+          selectedSort.propertyValue.includes("-") ? "asc" : "desc"
+        }`
     )
       .then((res) => res.json())
       .then((res) => {
