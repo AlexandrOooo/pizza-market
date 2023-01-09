@@ -1,0 +1,23 @@
+.search {
+    position: relative;
+    &__input {
+        outline: none;
+        border-radius: 10px;
+        padding: 10px 30px;
+        width: 500px;
+        font-size: 20px;
+    }
+    &__img {
+        width: 25px;
+        position: absolute;
+        left: 3px;
+        top: 13px;
+    }
+    &__close {
+        width: 25px;
+        position: absolute;
+        right: 3px;
+        top: 13px;
+        cursor: pointer;
+    }
+}
