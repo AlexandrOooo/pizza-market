@@ -1,0 +1,26 @@
+.pagination {
+    display: flex;
+    width: 400px;
+    margin: 0 auto;
+    justify-content: space-between;
+    li {
+        a {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 30px;
+            height: 30px;
+            color: #fff;
+            cursor: pointer;
+        }
+        border-radius: 50px;
+        background-color: $orange;
+        transition: all 0.5s ease;
+        &:hover {
+            background-color: #fff;
+            a {
+                color: $orange;
+            }
+        }
+    }
+}

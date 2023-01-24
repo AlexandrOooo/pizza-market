@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Categories from "../component/Categories/Categories";
+import Pagination from "../component/Pagination";
 import PizzaList from "../component/Pizza/PizzaList";
 import Sort from "../component/Sort/Sort";
 
@@ -11,6 +12,7 @@ function Home({ searchValue }) {
         name: "популярности",
         propertyValue: "rating",
     });
+    const [currentPage, setCurrentPage] = useState(1);
 
     useEffect(() => {
         setIsLoading(true);
@@ -18,7 +20,7 @@ function Home({ searchValue }) {
             "http://localhost:3001/items?" +
                 `${categoriesSort > 0 ? `category=${categoriesSort}` : ""}` +
                 `&_sort=${selectedSort.propertyValue}&_order=desc` +
-                `&q=${searchValue}`
+                `&q=${searchValue}&_page=${currentPage}&_limit=4`
         )
             .then((res) => res.json())
             .then((res) => {
@@ -26,7 +28,7 @@ function Home({ searchValue }) {
                 setIsLoading(false);
             });
         window.scrollTo(0, 0);
-    }, [categoriesSort, selectedSort, searchValue]);
+    }, [categoriesSort, selectedSort, searchValue, currentPage]);
     return (
         <div className="container">
             <div className="content__top">
@@ -41,6 +43,7 @@ function Home({ searchValue }) {
             </div>
             <h2 className="content__title">Все пиццы</h2>
             <PizzaList isLoading={isLoading} pizza={items} />
+            <Pagination onChangePage={setCurrentPage} />
         </div>
     );
 }
