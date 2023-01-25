@@ -3,43 +3,36 @@ import Categories from "../component/Categories/Categories";
 import Pagination from "../component/Pagination";
 import PizzaList from "../component/Pizza/PizzaList";
 import Sort from "../component/Sort/Sort";
+import { useSelector } from "react-redux";
+import axios from "axios";
 
 function Home({ searchValue }) {
+    const { categoryId, sort } = useSelector((state) => state.filter);
+    const sortValue = sort.propertyValue;
     const [items, setItems] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-    const [categoriesSort, setCategoriesSort] = useState(0);
-    const [selectedSort, setSelectedSort] = useState({
-        name: "популярности",
-        propertyValue: "rating",
-    });
     const [currentPage, setCurrentPage] = useState(1);
 
     useEffect(() => {
         setIsLoading(true);
-        fetch(
-            "http://localhost:3001/items?" +
-                `${categoriesSort > 0 ? `category=${categoriesSort}` : ""}` +
-                `&_sort=${selectedSort.propertyValue}&_order=desc` +
-                `&q=${searchValue}&_page=${currentPage}&_limit=4`
-        )
-            .then((res) => res.json())
+        axios
+            .get(
+                "http://localhost:3001/items?" +
+                    `${categoryId > 0 ? `category=${categoryId}` : ""}` +
+                    `&_sort=${sortValue}&_order=desc` +
+                    `&q=${searchValue}&_page=${currentPage}&_limit=4`
+            )
             .then((res) => {
-                setItems(res);
+                setItems(res.data);
                 setIsLoading(false);
             });
         window.scrollTo(0, 0);
-    }, [categoriesSort, selectedSort, searchValue, currentPage]);
+    }, [categoryId, sortValue, searchValue, currentPage]);
     return (
         <div className="container">
             <div className="content__top">
-                <Categories
-                    value={categoriesSort}
-                    onChangeCategories={(id) => setCategoriesSort(id)}
-                />
-                <Sort
-                    value={selectedSort}
-                    onChangeSort={(id) => setSelectedSort(id)}
-                />
+                <Categories />
+                <Sort />
             </div>
             <h2 className="content__title">Все пиццы</h2>
             <PizzaList isLoading={isLoading} pizza={items} />
