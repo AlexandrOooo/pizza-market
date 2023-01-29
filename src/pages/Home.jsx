@@ -7,11 +7,11 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 
 function Home({ searchValue }) {
-    const { categoryId, sort } = useSelector((state) => state.filter);
-    const sortValue = sort.propertyValue;
+    const { categoryId, sort, currentPage } = useSelector(
+        (state) => state.filter
+    );
     const [items, setItems] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-    const [currentPage, setCurrentPage] = useState(1);
 
     useEffect(() => {
         setIsLoading(true);
@@ -19,7 +19,7 @@ function Home({ searchValue }) {
             .get(
                 "http://localhost:3001/items?" +
                     `${categoryId > 0 ? `category=${categoryId}` : ""}` +
-                    `&_sort=${sortValue}&_order=desc` +
+                    `&_sort=${sort.sortProperty}&_order=desc` +
                     `&q=${searchValue}&_page=${currentPage}&_limit=4`
             )
             .then((res) => {
@@ -27,7 +27,8 @@ function Home({ searchValue }) {
                 setIsLoading(false);
             });
         window.scrollTo(0, 0);
-    }, [categoryId, sortValue, searchValue, currentPage]);
+    }, [categoryId, sort.sortProperty, searchValue, currentPage]);
+
     return (
         <div className="container">
             <div className="content__top">
@@ -36,7 +37,7 @@ function Home({ searchValue }) {
             </div>
             <h2 className="content__title">Все пиццы</h2>
             <PizzaList isLoading={isLoading} pizza={items} />
-            <Pagination onChangePage={setCurrentPage} />
+            <Pagination />
         </div>
     );
 }

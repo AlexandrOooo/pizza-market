@@ -1,24 +1,37 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setSort } from "../../redux/slice/filterSlice";
 
+export const sortList = [
+    { name: "популярности", sortProperty: "rating" },
+    { name: "цене", sortProperty: "price" },
+    { name: "алфавиту", sortProperty: "title" },
+];
+
 function Sort() {
     const dispatch = useDispatch();
+    const sortRef = useRef();
     const sort = useSelector((state) => state.filter.sort);
     const [isVisible, setIsVisible] = useState(false);
-    const list = [
-        { name: "популярности", propertyValue: "rating" },
-        { name: "цене", propertyValue: "price" },
-        { name: "алфавиту", propertyValue: "title" },
-    ];
 
     function onClickListItem(listItem) {
         dispatch(setSort(listItem));
         setIsVisible(false);
     }
 
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (!event.composedPath().includes(sortRef.current)) {
+                setIsVisible(false);
+            }
+        };
+        document.body.addEventListener("click", handleClickOutside);
+        return () =>
+            document.body.removeEventListener("click", handleClickOutside);
+    });
+
     return (
-        <div className="sort">
+        <div className="sort" ref={sortRef}>
             <div className="sort__label">
                 <svg
                     width="10"
@@ -44,13 +57,12 @@ function Sort() {
             {isVisible && (
                 <div className="sort__popup">
                     <ul>
-                        {list.map((listItem, i) => (
+                        {sortList.map((listItem, i) => (
                             <li
                                 key={i}
                                 onClick={() => onClickListItem(listItem)}
                                 className={
-                                    sort.propertyValue ===
-                                    listItem.propertyValue
+                                    sort.sortProperty === listItem.sortProperty
                                         ? "active"
                                         : ""
                                 }
