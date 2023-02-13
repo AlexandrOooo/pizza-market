@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import Categories from "../component/Categories/Categories";
 import Pagination from "../component/Pagination";
-import PizzaList from "../component/Pizza/PizzaList";
+import PizzaList from "../component/Pizza/PIzzaList";
 import Sort from "../component/Sort/Sort";
 import { useSelector } from "react-redux";
 import axios from "axios";
 
-function Home({ searchValue }) {
-    const { categoryId, sort, currentPage } = useSelector(
+function Home() {
+    const { categoryId, sort, currentPage, searchValue } = useSelector(
         (state) => state.filter
     );
     const [items, setItems] = useState([]);
