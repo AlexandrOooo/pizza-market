@@ -1,31 +1,24 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import Categories from "../component/Categories/Categories";
 import Pagination from "../component/Pagination";
 import PizzaList from "../component/Pizza/PIzzaList";
 import Sort from "../component/Sort/Sort";
-import { useSelector } from "react-redux";
-import axios from "axios";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchPizzas } from "../redux/slice/pizzaSlice";
+import HomeEmpty from "../component/HomeEmpty";
 
 function Home() {
+    const dispatch = useDispatch();
     const { categoryId, sort, currentPage, searchValue } = useSelector(
         (state) => state.filter
     );
-    const [items, setItems] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
-
+    const { status } = useSelector((state) => state.pizza);
     useEffect(() => {
-        setIsLoading(true);
-        axios
-            .get(
-                "http://localhost:3001/items?" +
-                    `${categoryId > 0 ? `category=${categoryId}` : ""}` +
-                    `&_sort=${sort.sortProperty}&_order=desc` +
-                    `&q=${searchValue}&_page=${currentPage}&_limit=4`
-            )
-            .then((res) => {
-                setItems(res.data);
-                setIsLoading(false);
-            });
+        const sortParam = sort.sortProperty;
+
+        dispatch(
+            fetchPizzas({ categoryId, sortParam, searchValue, currentPage })
+        );
         window.scrollTo(0, 0);
     }, [categoryId, sort.sortProperty, searchValue, currentPage]);
 
@@ -35,9 +28,15 @@ function Home() {
                 <Categories />
                 <Sort />
             </div>
-            <h2 className="content__title">Все пиццы</h2>
-            <PizzaList isLoading={isLoading} pizza={items} />
-            <Pagination />
+            {status === "error" ? (
+                <HomeEmpty />
+            ) : (
+                <>
+                    <h2 className="content__title">Все пиццы</h2>
+                    <PizzaList />
+                    <Pagination />
+                </>
+            )}
         </div>
     );
 }

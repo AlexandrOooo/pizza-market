@@ -1,15 +1,18 @@
 import React from "react";
 import PizzaItem from "./PizzaItem";
 import Skeleton from "./Skeleton";
+import { useSelector } from "react-redux";
 
-function PizzaList({ pizza, isLoading }) {
+function PizzaList() {
+    const { status, items } = useSelector((state) => state.pizza);
+
     return (
         <div className="content__items">
-            {isLoading
+            {status === "loading"
                 ? [...new Array(4)].map((_, index) => (
                       <Skeleton className="pizza-block" key={index} />
                   ))
-                : pizza.map((item, i) => <PizzaItem key={i} {...item} />)}
+                : items.map((item, i) => <PizzaItem key={i} {...item} />)}
         </div>
     );
 }
