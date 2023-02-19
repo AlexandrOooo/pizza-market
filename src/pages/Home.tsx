@@ -1,18 +1,20 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import Categories from "../component/Categories/Categories";
 import Pagination from "../component/Pagination";
 import PizzaList from "../component/Pizza/PIzzaList";
 import Sort from "../component/Sort/Sort";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { fetchPizzas } from "../redux/slice/pizzaSlice";
 import HomeEmpty from "../component/HomeEmpty";
+import { RootState } from "../redux/store";
+import { useAppDispatch } from "../redux/store";
 
 function Home() {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const { categoryId, sort, currentPage, searchValue } = useSelector(
-        (state) => state.filter
+        (state: RootState) => state.filter
     );
-    const { status } = useSelector((state) => state.pizza);
+    const { status } = useSelector((state: RootState) => state.pizza);
     useEffect(() => {
         const sortParam = sort.sortProperty;
 

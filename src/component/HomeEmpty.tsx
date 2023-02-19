@@ -1,12 +1,12 @@
 import React from "react";
 
-function HomeEmpty() {
+const HomeEmpty: React.FC = () => {
     return (
         <div className="content">
             <div className="container">
                 <div className="content__home-empty">
                     <h2>
-                        Упс, произошла ошибка<icon>😕</icon>
+                        Упс, произошла ошибка<span>😕</span>
                     </h2>
                     <p>
                         К сожалению, произошла ошибка загрузки пиц. Попробуйте
@@ -17,6 +17,6 @@ function HomeEmpty() {
             </div>
         </div>
     );
-}
+};
 
 export default HomeEmpty;

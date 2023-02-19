@@ -4,11 +4,15 @@ import { useSelector, useDispatch } from "react-redux";
 import { clearCart } from "../redux/slice/cartSlice";
 import CartItem from "../component/CartItem";
 import CartEmpty from "../component/CartEmpty";
+import { RootState } from "../redux/store";
 
-function Cart() {
+const Cart: React.FC = () => {
     const dispatch = useDispatch();
-    const { items, totalPrice } = useSelector((state) => state.cart);
-    const totalCount = items.reduce((total, item) => total + item.count, 0);
+    const { items, totalPrice } = useSelector((state: RootState) => state.cart);
+    const totalCount = items.reduce(
+        (total: number, item) => total + item.count,
+        0
+    );
 
     if (!totalCount) {
         return <CartEmpty></CartEmpty>;
@@ -141,6 +145,6 @@ function Cart() {
             </div>
         </div>
     );
-}
+};
 
 export default Cart;
