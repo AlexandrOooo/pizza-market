@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Search from "../Search";
 import { useSelector } from "react-redux";
@@ -10,6 +10,16 @@ function Header() {
         (total: number, item) => total + item.count,
         0
     );
+
+    const isMounted = useRef(false);
+    useEffect(() => {
+        if (isMounted.current) {
+            const json = JSON.stringify(items);
+            localStorage.setItem("cart", json);
+        }
+        isMounted.current = true;
+    }, [items]);
+
     return (
         <div className="header">
             <div className="container">

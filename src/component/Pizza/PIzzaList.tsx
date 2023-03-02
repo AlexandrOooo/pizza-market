@@ -1,4 +1,3 @@
-import React from "react";
 import PizzaItem from "./PizzaItem";
 import Skeleton from "./Skeleton";
 import { useSelector } from "react-redux";

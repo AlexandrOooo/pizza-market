@@ -4,7 +4,7 @@ import Pagination from "../component/Pagination";
 import PizzaList from "../component/Pizza/PIzzaList";
 import Sort from "../component/Sort/Sort";
 import { useSelector } from "react-redux";
-import { fetchPizzas } from "../redux/slice/pizzaSlice";
+import { fetchPizzas } from "../redux/slice/pizza/asyncThunk";
 import HomeEmpty from "../component/HomeEmpty";
 import { RootState } from "../redux/store";
 import { useAppDispatch } from "../redux/store";

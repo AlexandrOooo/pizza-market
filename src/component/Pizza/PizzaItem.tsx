@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { addItem } from "../../redux/slice/cartSlice";
+import { addItem } from "../../redux/slice/cart/slice";
 import { RootState } from "../../redux/store";
 
 type PizzaBlockProps = {
