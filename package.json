@@ -29,7 +29,7 @@
         "dev": "concurrently \"npm run server\" \"npm start\"",
         "start": "react-scripts start -p 3000",
         "build": "react-scripts build",
-        "test": "react-scripts test",
+        "test": "concurrently \"react-scripts test\" \"npm start\",
         "eject": "react-scripts eject",
         "server": "json-server -w server/db.json -p 3001"
     },
